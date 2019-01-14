@@ -112,7 +112,8 @@ export class State {
     {name: "batchSize", type: Type.NUMBER},
     {name: "dataset", type: Type.OBJECT, keyMap: datasets},
     {name: "regDataset", type: Type.OBJECT, keyMap: regDatasets},
-    {name: "learningRate", type: Type.NUMBER},
+    {name: "learningRate", type: Type.NUMBER },
+    {name: "momentumLifeTime", type: Type.NUMBER },
     {name: "regularizationRate", type: Type.NUMBER},
     {name: "noise", type: Type.NUMBER},
     {name: "networkShape", type: Type.ARRAY_NUMBER},
@@ -138,6 +139,7 @@ export class State {
 
   [key: string]: any;
   learningRate = 0.03;
+  momentumLifeTime = 0;
   regularizationRate = 0;
   showTestData = false;
   noise = 0;

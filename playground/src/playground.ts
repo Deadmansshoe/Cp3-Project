@@ -85,6 +85,7 @@ let HIDABLE_CONTROLS = [
   ["Step button", "stepButton"],
   ["Reset button", "resetButton"],
   ["Learning rate", "learningRate"],
+  ["Mom. Life Time", "momentumLifeTime"],
   ["Activation", "activation"],
   ["Regularization", "regularization"],
   ["Regularization rate", "regularizationRate"],
@@ -342,6 +343,14 @@ function makeGUI() {
     parametersChanged = true;
   });
   learningRate.property("value", state.learningRate);
+
+  let momentumLifeTime = d3.select("#momentumLifeTime").on("change", function () {
+    state.momentumLifeTime = +this.value;
+    state.serialize();
+    userHasInteracted();
+    parametersChanged = true;
+  });
+  momentumLifeTime.property("value", state.momentumLifeTime);
 
   let regularDropdown = d3.select("#regularizations").on("change",
       function() {
@@ -919,7 +928,7 @@ function oneStep(): void {
     nn.forwardProp(network, input);
     nn.backProp(network, point.label, nn.Errors.SQUARE);
     if ((i + 1) % state.batchSize === 0) {
-      nn.updateWeights(network, state.learningRate, state.regularizationRate);
+        nn.updateWeights(network, state.learningRate, state.regularizationRate, state.momentumLifeTime);
     }
   });
   // Compute the loss.
