@@ -45,6 +45,11 @@ export class Node {
   /** Activation function that takes total input and returns node's output */
   activation: ActivationFunction;
 
+	/**
+	 * Old Vektro for the changed, used to introduce the momentum in the gradiant
+	 */
+	momentumAccDer = 0;
+
   /**
    * Creates a new node with the provided id and activation function.
    */
@@ -168,6 +173,10 @@ export class Link {
   numAccumulatedDers = 0;
   regularization: RegularizationFunction;
 
+	/**
+	 * Old momentom vektor, acc of all steps before
+	 */
+	momentumAccDer = 0;
   /**
    * Constructs a link in the neural network initialized with random weight.
    *
@@ -340,7 +349,9 @@ export function updateWeights(network: Node[][], learningRate: number,
       let node = currentLayer[i];
       // Update the node's bias.
       if (node.numAccumulatedDers > 0) {
-        node.bias -= learningRate * node.accInputDer / node.numAccumulatedDers;
+				node.momentumAccDer *= momentumLifeTime;
+				node.momentumAccDer += learningRate * node.accInputDer / node.numAccumulatedDers;
+        node.bias -= node.momentumAccDer;
         node.accInputDer = 0;
         node.numAccumulatedDers = 0;
       }
@@ -354,8 +365,10 @@ export function updateWeights(network: Node[][], learningRate: number,
             link.regularization.der(link.weight) : 0;
         if (link.numAccumulatedDers > 0) {
           // Update the weight based on dE/dw.
-          link.weight = link.weight -
+					link.momentumAccDer *= momentumLifeTime;
+					link.momentumAccDer += 
               (learningRate / link.numAccumulatedDers) * link.accErrorDer;
+          link.weight = link.weight - link.momentumAccDer;
           // Further update the weight based on regularization.
           let newLinkWeight = link.weight -
               (learningRate * regularizationRate) * regulDer;

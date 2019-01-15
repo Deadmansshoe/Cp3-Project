@@ -39,10 +39,11 @@ export let datasets: {[key: string]: dataset.DataGenerator} = {
   "circle": dataset.classifyCircleData,
   "xor": dataset.classifyXORData,
   "gauss": dataset.classifyTwoGaussData,
-// "sideOr": dataset.classifySides,
   "spiral": dataset.classifySpiralData,
   "sinOfX": dataset.classifySinX,
+	"sinOfY": dataset.classifySinY,
   "sinOfR": dataset.classifySinR,
+	"chess": dataset.classifyChess,
 };
 
 /** A map between dataset names and functions that generate regression data. */

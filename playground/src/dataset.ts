@@ -295,6 +295,53 @@ export function classifyXORData(numSamples: number, noise: number):
   return points;
 }
 
+export function classifySinY(numSamples: number, noise: number):
+	Example2D[] {
+  let points: Example2D[] = [];
+  let distance = 2.5;
+  let n = numSamples/4;
+
+  for (let k = 0; k < 4; k++) {
+    for (let i = 0; i < n; i++) {
+	  	let y = randUniform(-5, 5);	
+	  	let yNoise = randUniform(-5, 5) * noise;
+  		let x = 1.2 * Math.sin(y) + distance * (k - 1.5);
+	  	let xNoise = randUniform(-2, 2) * noise;
+			y += yNoise;
+			x += xNoise;
+	  	let label = (k % 2 == 0) ? -1 : 1; 
+
+		  points.push({x, y, label});
+		}
+  }
+  return points;
+}
+
+export function classifyChess(numSamples: number, noise: number):
+	Example2D[] {
+  let points: Example2D[] = [];
+  let distance = 2.5;
+  let n = numSamples/16;
+
+  for (let k = 0; k < 4; k++) {
+		for (let j = 0; j < 4; k++) {
+			for (let i = 0; i < n; i++) {
+				let y = randUniform(distance * (k - 2), distance * (k - 1));	
+				let yNoise = randUniform(-2, 2) * noise;
+				let x = randUniform(distance * (j - 2), distance * (j - 1));	
+				let xNoise = randUniform(-2, 2) * noise;
+				y += yNoise;
+				x += xNoise;
+				let label = ((k % 2 == 0 || j % 2 == 0) 
+										&& !(k % 2 == 0 || j % 2 == 0)) ? -1 : 1; 
+
+				points.push({x, y, label});
+			}
+		}
+  }
+  return points;
+}
+
 /**
  * Returns a sample from a uniform [a, b] distribution.
  * Uses the seedrandom library as the random generator.
