@@ -305,8 +305,8 @@ export function classifySinY(numSamples: number, noise: number):
     for (let i = 0; i < n; i++) {
 	  	let y = randUniform(-5, 5);	
 	  	let yNoise = randUniform(-5, 5) * noise;
-  		let x = 1.2 * Math.sin(y) + distance * (k - 1.5);
-	  	let xNoise = randUniform(-2, 2) * noise;
+  		let x = 1.5 * Math.sin(y) + distance * (k - 1.5);
+	  	let xNoise = randUniform(-1, 1) * noise;
 			y += yNoise;
 			x += xNoise;
 	  	let label = (k % 2 == 0) ? -1 : 1; 
@@ -320,26 +320,51 @@ export function classifySinY(numSamples: number, noise: number):
 export function classifyChess(numSamples: number, noise: number):
 	Example2D[] {
   let points: Example2D[] = [];
-  let distance = 2.5;
+  let distance = 3;
+  let padding = 0.3;
   let n = numSamples/16;
 
   for (let k = 0; k < 4; k++) {
-		for (let j = 0; j < 4; k++) {
+		for (let j = 0; j < 4; j++) {
 			for (let i = 0; i < n; i++) {
-				let y = randUniform(distance * (k - 2), distance * (k - 1));	
+				let y = randUniform(distance * (k - 2) + padding, distance * (k - 1) - padding);	
 				let yNoise = randUniform(-2, 2) * noise;
-				let x = randUniform(distance * (j - 2), distance * (j - 1));	
+				let x = randUniform(distance * (j - 2) + padding, distance * (j - 1) - padding);	
 				let xNoise = randUniform(-2, 2) * noise;
 				y += yNoise;
 				x += xNoise;
 				let label = ((k % 2 == 0 || j % 2 == 0) 
-										&& !(k % 2 == 0 || j % 2 == 0)) ? -1 : 1; 
+										&& !(k % 2 == 0 && j % 2 == 0)) ? -1 : 1; 
 
 				points.push({x, y, label});
 			}
 		}
   }
   return points;
+}
+
+export function classifyTart(numSamples: number, noise: number):
+    Example2D[] {
+    let points: Example2D[] = [];
+    let radius = 5;
+    let padding = 0.1;
+
+    function getTartLabel(angle: number) {
+        return (Math.sin(angle * 4) >= 0) ? -1 : 1;
+    }
+
+    for (let i = 0; i < 8; i++) {
+        for (let j = 0; j < numSamples / 8; j++) {
+            let angle = randUniform(i * Math.PI / 4 + padding, (i + 1) * Math.PI / 4 - padding);
+            let r = randUniform(0.1, radius);
+            let x = r * Math.cos(angle);
+            let y = r * Math.sin(angle);
+            let angleNoise = randUniform(-Math.PI/2, Math.PI/2);
+            let label = getTartLabel(angle + noise * angleNoise);
+            points.push({x, y, label})
+        }
+    }
+    return points;
 }
 
 /**

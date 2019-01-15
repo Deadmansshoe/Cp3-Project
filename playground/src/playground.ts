@@ -68,14 +68,14 @@ let INPUTS: {[name: string]: InputFeature} = {
   "xSquared": {f: (x, y) => x * x, label: "X_1^2"},
   "ySquared": {f: (x, y) => y * y,  label: "X_2^2"},
   "xTimesY": {f: (x, y) => x * y, label: "X_1X_2"},
-  "radial": {f: (x, y) => Math.sqrt(x*x + y*y), label: "Raidal"},
-  "radialSin": {f: (x, y) => Math.sin(Math.sqrt(x*x + y*y)), label: "Raidal sin"},
+  "radial": {f: (x, y) => Math.sqrt(x*x + y*y), label: "R"},
+  "radialSin": {f: (x, y) => Math.sin(Math.sqrt(x*x + y*y)), label: "Sin(R)"},
   "sinX": {f: (x, y) => Math.sin(x), label: "sin(X_1)"},
-  "sin2X": {f: (x, y) => Math.sin(2*x), label: "sin(2*X_1)"},
-  "sin3X": {f: (x, y) => Math.sin(3*x), label: "sin(3*X_1)"},
+  "sin2X": {f: (x, y) => Math.sin(2*x), label: "sin(2X_1)"},
+  "sin3X": {f: (x, y) => Math.sin(3*x), label: "sin(3X_1)"},
   "sinY": {f: (x, y) => Math.sin(y), label: "sin(X_2)"},
-  "sin2Y": {f: (x, y) => Math.sin(2*y), label: "sin(2*X_1)"},
-  "sin3Y": {f: (x, y) => Math.sin(3*y), label: "sin(3*Y_1)"},
+  "sin2Y": {f: (x, y) => Math.sin(2*y), label: "sin(2X_2)"},
+  "sin3Y": {f: (x, y) => Math.sin(3*y), label: "sin(3X_2)"},
 };
 
 let HIDABLE_CONTROLS = [

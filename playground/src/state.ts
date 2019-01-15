@@ -41,9 +41,10 @@ export let datasets: {[key: string]: dataset.DataGenerator} = {
   "gauss": dataset.classifyTwoGaussData,
   "spiral": dataset.classifySpiralData,
   "sinOfX": dataset.classifySinX,
-	"sinOfY": dataset.classifySinY,
+  "sinOfY": dataset.classifySinY,
   "sinOfR": dataset.classifySinR,
-	"chess": dataset.classifyChess,
+  "chess": dataset.classifyChess,
+  "tart": dataset.classifyTart,
 };
 
 /** A map between dataset names and functions that generate regression data. */
@@ -140,7 +141,7 @@ export class State {
 
   [key: string]: any;
   learningRate = 0.03;
-  momentumLifeTime = 0;
+  momentumLifeTime = 0.0;
   regularizationRate = 0;
   showTestData = false;
   noise = 0;
