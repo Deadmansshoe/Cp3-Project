@@ -91,7 +91,7 @@ limitations under the License.
               </div>
           </div>
           <div class="control ui-momentumLifeTime">
-              <label for="learningRate">Mom. Life Time</label>
+              <label for="momentumLifeTime">Mom. Life Time</label>
               <div class="select">
                   <select id="momentumLifeTime">
                       <option value="0.0">1</option>
@@ -336,6 +336,40 @@ limitations under the License.
             <input type="checkbox" id="discretize" class="mdl-checkbox__input" checked>
             <span class="mdl-checkbox__label label">Discretize output</span>
           </label>
+        </div>
+        <br/>
+        <div class="label">
+            Enter the filename here:
+        </div>
+        <textarea id="download-file-name" rows="1">filename</textarea>
+        <br/>
+        <button class="basic-button" id="download-plot-button">Download</button>
+        <br />
+        <div class="label">
+            Change the seed to one of the 10 possible fixed values.
+        </div>
+        <div style="display:flex;">
+            <label class="ui-showTestData mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="fixed-seed">
+                <input type="checkbox" id="fixed-seed" class="mdl-checkbox__input" checked>
+                <span class="mdl-checkbox__label label">Fix the seed</span>
+            </label>
+            <div class="control ui-fixedSeedValue">
+                <label for="fixedSeedValue">Seed</label>
+                <div class="select">
+                    <select id="fixedSeedValue">
+                        <option value="11111">1</option>
+                        <option value="22222">2</option>
+                        <option value="33333">3</option>
+                        <option value="44444">4</option>
+                        <option value="55555">5</option>
+                        <option value="66666">6</option>
+                        <option value="77777">7</option>
+                        <option value="88888">8</option>
+                        <option value="99999">9</option>
+                        <option value="00000">10</option>
+                    </select>
+                </div>
+            </div>
         </div>
       </div>
     </div>

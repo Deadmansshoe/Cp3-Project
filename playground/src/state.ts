@@ -119,7 +119,9 @@ export class State {
     {name: "regularizationRate", type: Type.NUMBER},
     {name: "noise", type: Type.NUMBER},
     {name: "networkShape", type: Type.ARRAY_NUMBER},
-    {name: "seed", type: Type.STRING},
+    {name: "seed", type: Type.STRING },
+    {name: "seedConst", type: Type.BOOLEAN },
+    {name: "seedConstValue", type: Type.STRING},
     {name: "showTestData", type: Type.BOOLEAN},
     {name: "discretize", type: Type.BOOLEAN},
     {name: "percTrainData", type: Type.NUMBER},
@@ -170,6 +172,8 @@ export class State {
   dataset: dataset.DataGenerator = dataset.classifyCircleData;
   regDataset: dataset.DataGenerator = dataset.regressPlane;
   seed: string;
+  seedConst: boolean;
+  seedConstValue: string;
 
   /**
    * Deserializes the state from the url hash.

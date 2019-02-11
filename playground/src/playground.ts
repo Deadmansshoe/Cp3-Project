@@ -278,7 +278,22 @@ function makeGUI() {
     heatMap.updateTestPoints(state.showTestData ? testData : []);
   });
   // Check/uncheck the checkbox according to the current state.
-  showTestData.property("checked", state.showTestData);
+    showTestData.property("checked", state.showTestData);
+
+  let seedConst = d3.select("#fixed-seed").on("change", function () {
+    state.seedConst = this.checked;
+    state.seedConstValue = (<HTMLInputElement>document.getElementById("fixedSeedValue")).value;
+    state.serialize();
+    userHasInteracted();
+    });
+
+    let seedConstValue = d3.select("#fixedSeedValue").on("change", function () {
+        state.seedConstValue = +this.value as any as string;
+        state.serialize();
+        userHasInteracted();
+        parametersChanged = true;
+    });
+    seedConstValue.property("value", state.seedConstValue);
 
   let discretize = d3.select("#discretize").on("change", function() {
     state.discretize = this.checked;
@@ -965,6 +980,9 @@ function reset(onStartup=false) {
   d3.select("#num-layers").text(state.numHiddenLayers);
 
   // Make a simple network.
+  if(state.seedConst) {
+    Math.seedrandom(state.seedConstValue);
+  }
   iter = 0;
   let numInputs = constructInput(0 , 0).length;
   let shape = [numInputs].concat(state.networkShape).concat([1]);
@@ -1085,8 +1103,11 @@ function generateData(firstTime = false) {
     state.seed = Math.random().toFixed(5);
     state.serialize();
     userHasInteracted();
-  }
+    }
   Math.seedrandom(state.seed);
+  if(state.seedConst) {
+    Math.seedrandom(state.seedConstValue)
+  }
   let numSamples = (state.problem === Problem.REGRESSION) ?
       NUM_SAMPLES_REGRESS : NUM_SAMPLES_CLASSIFY;
   let generator = state.problem === Problem.CLASSIFICATION ?
@@ -1127,6 +1148,42 @@ function simulationStarted() {
   });
   parametersChanged = false;
 }
+
+
+// Define DataPoints to get the plot from linechart
+type DataPoint = {
+    x: number;
+    y: number[];
+};
+
+// Function to load the charts
+// Status: unworking
+function download(filename, lineChart) {
+    // get the linechart data as a string form linechart
+    let file_content: string;
+
+    file_content = <string> lineChart.getDataString();
+    //file_content = "test";
+
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(file_content));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}
+
+// Start file download.
+document.getElementById("download-plot-button").addEventListener("click", function () {
+    // Generate download of hello.txt file with some content
+    var filename = (<HTMLInputElement>document.getElementById("download-file-name")).value + ".txt";
+
+    download(filename, lineChart);
+}, false);
 
 drawDatasetThumbnails();
 initTutorial();
